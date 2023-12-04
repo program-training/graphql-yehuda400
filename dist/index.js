@@ -39,7 +39,6 @@ const typeDefs = `#graphql
     # Other mutations if needed
   }
 `;
-
 const books = [
     { id: "1", title: "The Great Gatsby", authorId: "1", genre: "Classic" },
     {
@@ -68,14 +67,12 @@ const books = [
         genre: "Fantasy",
     },
 ];
-
 const authors = [
     { id: "1", name: "F. Scott Fitzgerald", books: [] },
     { id: "2", name: "Harper Lee", books: [] },
     { id: "3", name: "J.D. Salinger", books: [] },
     { id: "4", name: "J.K. Rowling", books: [] },
 ];
-
 const resolvers = {
     Query: {
         books: () => books,
@@ -92,24 +89,18 @@ const resolvers = {
                 genre: book.genre,
             };
             books.push(newBook);
-
             // Assuming you want to update the respective author's books array
-            const author = authors.find(
-                (author) => author.id === book.authorId
-            );
+            const author = authors.find((author) => author.id === book.authorId);
             if (author) {
                 author.books.push(newBook);
             }
-
             return newBook;
         },
         // Other mutation resolvers if present
     },
     Author: {
         books: (author, args) => {
-            const authorBooks = books.filter(
-                (book) => book.authorId === author.id
-            );
+            const authorBooks = books.filter((book) => book.authorId === author.id);
             if (args.fields) {
                 return authorBooks.map((book) => {
                     const selectedFields = {};
@@ -125,7 +116,6 @@ const resolvers = {
         },
     },
 };
-
 const server = new ApolloServer({
     typeDefs,
     resolvers,
